@@ -4,7 +4,7 @@
       <span
           style="cursor: pointer; font-size: 18px"
           @click="collapse"
-      ><el-icon class="el-icon--left" >
+      ><el-icon class="el-icon--left">
         <component :is="collapseBtnClass"></component>
       </el-icon>
       </span>
@@ -18,27 +18,28 @@
     </div>
     <el-dropdown style="width: 150px; cursor: pointer; text-align: right">
       <div style="display: inline-block">
-        <span>{{ username }}</span
-        ><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+        <span>{{ username }}</span>
+        <el-icon class="el-icon--right">
+          <arrow-down/>
+        </el-icon>
       </div>
-      <el-dropdown-menu
-          style="width: 100px; text-align: center"
-      >
-        <slot name="dropdown"></slot>
-        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
-          <router-link to="/person">person Center</router-link>
-        </el-dropdown-item>
-        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
-          <router-link to="/password"
-          >change password
-          </router-link
-          >
-        </el-dropdown-item
-        >
-        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
-          <span @click="logout">logout</span>
-        </el-dropdown-item>
-      </el-dropdown-menu>
+      <template #dropdown>
+        <el-dropdown-menu
+            style="width: 100px; text-align: center">
+
+          <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+            <router-link to="/person">person Center</router-link>
+          </el-dropdown-item>
+          <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+            <router-link to="/password">
+              change password
+            </router-link>
+          </el-dropdown-item>
+          <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+            <span @click="logout">logout</span>
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
     </el-dropdown>
   </div>
 </template>
@@ -70,4 +71,10 @@ export default {
 </script>
 
 <style>
+.example-showcase .el-dropdown-link {
+  cursor: pointer;
+  color: var(--el-color-primary);
+  display: flex;
+  align-items: center;
+}
 </style>

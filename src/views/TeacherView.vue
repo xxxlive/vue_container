@@ -5,18 +5,17 @@
       <el-table-column prop="name" label="Name" width="180"></el-table-column>
       <el-table-column prop="title" label="Title"></el-table-column>
       <el-table-column label="operations" width="200">
-        <template #title="scope">
-          <el-button type="primary">Edit<i class="el-icon-edit"></i></el-button>
-          <el-popconfirm
-              title="Are you sure to delete this?"
-              confirm-button-text="yes"
-              cancel-button-text="no"
-              @confirm="del(scope.row.id)"
-          >
-            <template #title>
-              <el-button type="danger">Delete<i class="el-icon-delete"></i></el-button>
-            </template>
-          </el-popconfirm>
+        <template #default>
+          <el-button type="primary">Edit</el-button>
+            <el-popconfirm
+                title="Are you sure to delete this?"
+                confirm-button-text="yes"
+                cancel-button-text="no"
+                @confirm="del(scope.row.id)">
+              <template #reference>
+                <el-button type="danger">Delete</el-button>
+              </template>
+            </el-popconfirm>
         </template>
       </el-table-column>
     </el-table>
@@ -29,8 +28,7 @@
           :page-sizes="[1, 2, 10, 20]"
           :page-size="pageSize"
           layout="total,sizes, prev, pager, next,jumper"
-          :total="total"
-      >
+          :total="total">
       </el-pagination>
     </div>
   </div>
@@ -60,6 +58,7 @@ export default {
             },
           })
           .then((resp) => {
+            console.log(resp.data.data)
             this.tableData = resp.data.data.list;
             this.total = resp.data.data.total;
           });

@@ -17,7 +17,6 @@ export default createStore({
             localStorage.removeItem("menus")
             localStorage.removeItem("currentPathName")
             router.push("/login")
-
             resetRouter()
         }
     },
