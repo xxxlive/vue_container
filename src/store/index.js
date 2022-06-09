@@ -1,10 +1,26 @@
-import Vuex from 'vuex'
+import router from '@/router'
+import {createStore} from 'vuex'
+import {resetRouter} from '@/router'
 
-
-export default new Vuex.Store({
-    state: {},
+export default createStore({
+    state: {
+        currentPathName: '',
+        permisssion: []
+    },
     getters: {},
-    mutations: {},
+    mutations: {
+        setPath(state) {
+            state.currentPathName = localStorage.getItem('currentPathName')
+        },
+        logout() {
+            localStorage.removeItem("user")
+            localStorage.removeItem("menus")
+            localStorage.removeItem("currentPathName")
+            router.push("/login")
+
+            resetRouter()
+        }
+    },
     actions: {},
     modules: {}
 })
