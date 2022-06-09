@@ -1,25 +1,41 @@
 <template>
-  <div style="line-height: 60px; display: flex">
-    <span
-      :class="collapseBtnClass"
-      style="cursor: pointer; font-size: 18px"
-      @click="collapse"
-    ></span>
-    <el-breadcrumb
-      separator="/"
-      style="display: inline-block; margin-left: 10px"
-    >
-      <el-breadcrumb-item :to="'/'">HomePage</el-breadcrumb-item>
-    </el-breadcrumb>
-    <el-dropdown>
-      <i class="el-icon-setting" style="margin-right: 15px"></i>
-      <el-dropdown-menu>
-        <el-dropdown-item>View</el-dropdown-item>
-        <el-dropdown-item>Add</el-dropdown-item>
-        <el-dropdown-item>Delete</el-dropdown-item>
+  <div style="line-height: 60px; display: flex;">
+    <div style="flex: 1">
+      <span
+        :class="collapseBtnClass"
+        style="cursor: pointer; font-size: 18px"
+        @click="collapse"
+      ></span>
+      <el-breadcrumb
+        separator="/"
+        style="display: inline-block; margin-left: 10px"
+      >
+        <el-breadcrumb-item :to="'/'">HomePage</el-breadcrumb-item>
+        <el-breadcrumb-item>{{ currentPathName }}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <el-dropdown style="width: 150px; cursor: pointer; text-align: right">
+      <div style="display: inline-block">
+        <span>{{ username }}</span
+        ><i class="el-icon-arrow-down" style="margin-left: 5px"></i>
+      </div>
+      <el-dropdown-menu
+        style="width: 100px; text-align: center"
+      >
+        <slot name="dropdown"></slot>
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <router-link to="/person">person Center</router-link>
+        </el-dropdown-item>
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <router-link to="/password"
+            >change password</router-link
+          ></el-dropdown-item
+        >
+        <el-dropdown-item style="font-size: 14px; padding: 5px 0">
+          <span @click="logout">logout</span>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <span>Tom</span>
   </div>
 </template>
 
@@ -27,10 +43,20 @@
 export default {
   props: {
     collapseBtnClass: String,
+    username: String,
   },
   methods: {
     collapse() {
-      this.$emit('asideCollapse')
+      this.$emit("asideCollapse");
+    },
+    logout() {
+      this.$store.commit("logout");
+      this.$message.success("logout successfully");
+    },
+  },
+  computed: {
+    currentPathName() {
+      return this.$store.state.currentPathName;
     },
   },
 };

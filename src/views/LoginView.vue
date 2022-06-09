@@ -45,8 +45,7 @@
 </template>
 
 <script>
-import {setMenus} from "@/router";
-
+import { setMenus } from "@/router";
 export default {
   name: "HomeView",
   data() {
@@ -83,17 +82,13 @@ export default {
   },
   methods: {
     login() {
-      console.log('fuck you')
       this.$refs["userForm"].validate((valid) => {
         if (valid) {
           this.request.post("/user/checkUser", this.user).then((resp) => {
             if (resp.data.code === 200) {
-              console.log(resp);
-              localStorage.setItem("userid", resp.data.data.userid);
               localStorage.setItem("menus", JSON.stringify(resp.data.data.menus));
-              setMenus()
-              // localStorage.setItem("user", JSON.stringify(resp.data.data));
-              // setMenus();
+              localStorage.setItem("user", JSON.stringify(resp.data.data));
+              setMenus();
               this.$message.success("login is successful");
               this.$router.push("/");
             } else {

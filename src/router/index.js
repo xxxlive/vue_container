@@ -1,5 +1,5 @@
-import {createRouter, createWebHistory} from 'vue-router'
-
+import  {createRouter, createWebHistory} from 'vue-router'
+import store from '@/store'
 
 const routess = [
     {
@@ -15,23 +15,25 @@ const routess = [
 
     },
     {
-        path: '/home',
-        name: 'home',
-        component: () => import('../views/HomeView.vue')
-
-    },
-    {
         path: '/404',
         name: '404',
-        component: () => import('../views/404Page.vue')
+        component: () => import('../views/404.vue')
 
     }
 ]
 
-const router = new createRouter({
+const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes: routess
 })
+
+
+export const resetRouter = () => {
+    router.matcher = createRouter({
+        history: createWebHistory(process.env.BASE_URL),
+        routes: routess
+    })
+}
 
 export const setMenus = () => {
     const storeMenus = localStorage.getItem("menus");
@@ -42,7 +44,7 @@ export const setMenus = () => {
                 path: '/',
                 name: 'Main',
                 component: () => import('../views/MainView.vue'),
-                redirect: '/home',
+                // redirect: '/home',
                 children: [
                     {
                         path: 'person',
@@ -58,7 +60,6 @@ export const setMenus = () => {
             }
             const menus = JSON.parse(storeMenus)
             menus.forEach(item => {
-                console.log(item, 'menus.forEach');
                 if (item.path) {
                     let itemMenu = {
                         path: item.path.replace("/", ""),
@@ -66,21 +67,19 @@ export const setMenus = () => {
                         component: () => import('../views/' + item.pagepath + '.vue'),
                     }
                     mainRoute.children.push(itemMenu)
+                } else if (item.children.length) {
+                    item.children.forEach(item => {
+                        if (item.path) {
+                            let itemMenu = {
+                                path: item.path.replace("/", ""),
+                                name: item.name,
+                                component: () => import('../views/' + item.pagepath + '.vue'),
+                            }
+                            mainRoute.children.push(itemMenu)
+                        }
+                    })
                 }
-                // else if (item.children.length) {
-                //   item.children.forEach(item => {
-                //     if (item.path) {
-                //       let itemMenu = {
-                //         path: item.path.replace("/", ""),
-                //         name: item.name,
-                //         component: () => import('../views/' + item.pagepath + '.vue'),
-                //       }
-                //       mainRoute.children.push(itemMenu)
-                //     }
-                //   })
-                // }
             })
-            console.log(mainRoute)
             router.addRoute(mainRoute);
         }
     }
@@ -88,6 +87,8 @@ export const setMenus = () => {
 
 router.beforeEach((to, from, next) => {
     localStorage.setItem("currentPathName", to.name);
+    store.commit('setPath')
+
     if (!to.matched.length) {
         //menus
         const userid = localStorage.getItem("userid");

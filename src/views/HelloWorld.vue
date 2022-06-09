@@ -26,9 +26,7 @@
             </el-sub-menu>
             <el-sub-menu index="2">
               <template #title>
-                <el-icon>
-                  <icon-menu/>
-                </el-icon>
+                <el-icon><Grid /></el-icon>
                 Navigator Two
               </template>
               <el-menu-item-group>
@@ -72,10 +70,8 @@
         <el-header style="text-align: right; font-size: 12px">
           <div class="toolbar">
             <el-dropdown>
-              <el-icon style="margin-right: 8px; margin-top: 1px"
-              >
-                <setting
-                />
+              <el-icon style="margin-right: 8px; margin-top: 1px">
+                <setting/>
               </el-icon>
               <template #dropdown>
                 <el-dropdown-menu>
@@ -105,7 +101,6 @@
 </template>
 
 <script>
-
 
 export default {
   name: 'HelloWorld',
