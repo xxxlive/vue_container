@@ -88,6 +88,7 @@ export default {
             if (resp.data.code === 200) {
               localStorage.setItem("menus", JSON.stringify(resp.data.data.menus));
               localStorage.setItem("user", JSON.stringify(resp.data.data));
+              console.log(resp.data.data.menus)
               setMenus();
               this.$message.success("login is successful");
               this.$router.push("/");

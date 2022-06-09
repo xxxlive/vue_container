@@ -17,10 +17,13 @@
       />
       <b style="color: white; margin-left: 5px" v-show="logoTextShow">VMS</b>
     </div>
+
     <div v-for="item in menus" :key="item.id">
       <div v-if="item.path">
         <el-menu-item :index="item.path">
-          <i :class="item.icon"></i>
+          <el-icon>
+            <component :is="item.icon"></component>
+          </el-icon>
           <span>
             <slot name="title"></slot>
             {{ item.name }}
@@ -28,25 +31,31 @@
         </el-menu-item>
       </div>
       <div v-else>
-        <el-submenu :index="item.id + ''">
-          <template>
-            <slot name="title"></slot>
-            <i :class="item.icon"></i>
+        <el-sub-menu :index="item.id + ''">
+          <template #title>
+            <el-icon>
+              <component :is="item.icon"></component>
+            </el-icon>
+            <!--            <i :class="item.icon"></i>-->
             <span>
               <slot name="title"></slot>
               {{ item.name }}
             </span>
           </template>
+
           <div v-for="subItem in item.children" :key="subItem.id">
             <el-menu-item :index="subItem.path">
-              <i :class="subItem.icon"></i>
+              <el-icon>
+                <component :is="item.icon"></component>
+              </el-icon>
               <span>
                 <slot name="title"></slot>
                 {{ subItem.name }}
               </span>
             </el-menu-item>
           </div>
-        </el-submenu>
+
+        </el-sub-menu>
       </div>
     </div>
   </el-menu>
@@ -67,7 +76,9 @@ export default {
           ? JSON.parse(localStorage.getItem("menus")).map((v) => v.id + "")
           : [],
     };
-  },
+  }, methods: {
+
+  }
 };
 </script>
 

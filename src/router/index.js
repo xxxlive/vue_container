@@ -80,6 +80,7 @@ export const setMenus = () => {
                     })
                 }
             })
+            console.log(mainRoute)
             router.addRoute(mainRoute);
         }
     }

@@ -35,7 +35,7 @@ export default {
   },
   data() {
     return {
-      collapseBtnClass: "el-icon-s-fold",
+      collapseBtnClass: "Fold",
       isCollapse: false,
       logoTextShow: true,
       sideWidth: 200,
@@ -46,11 +46,11 @@ export default {
     collapse() {
       this.isCollapse = !this.isCollapse;
       if (this.isCollapse) {
-        this.collapseBtnClass = "el-icon-s-unfold";
+        this.collapseBtnClass = "FolderOpened";
         this.logoTextShow = false;
         this.sideWidth = 60;
       } else {
-        this.collapseBtnClass = "el-icon-s-fold";
+        this.collapseBtnClass = "Fold";
         this.logoTextShow = true;
         this.sideWidth = 200;
       }
