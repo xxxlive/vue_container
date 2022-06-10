@@ -103,14 +103,15 @@
         width="50%"
         center
     >
-      <el-form label-width="120px">
-        <el-form-item label="Id">
+      <el-form ref="StuForm" label-width="120px" :model="form" :rules="rules">
+        <el-form-item label="Id" prop="id">
           <el-input
               type="text"
               v-model="form.id"
-              placeholder="please enter your id"></el-input>
+              placeholder="please enter your id"
+          ></el-input>
         </el-form-item>
-        <el-form-item label="password">
+        <el-form-item label="password" prop="password">
           <el-input
               type="text"
               v-model="form.password"
@@ -131,8 +132,8 @@
               placeholder="please enter your nation"
           ></el-input>
         </el-form-item>
-        <el-form-item label="usertype">
-          <el-select v-model="usertypeid" class="m-2" placeholder="Select" size="small">
+        <el-form-item label="usertype" prop="usertypeid">
+          <el-select v-model="form.usertypeid" class="m-2" placeholder="Select" size="small">
             <el-option
                 v-for="item in usertypeOptions"
                 :key="item.value"
@@ -162,6 +163,33 @@ export default {
   },
   data() {
     return {
+      rules: {
+        id: [
+          {required: true, message: "Please input userid", trigger: "blur"},
+          {
+            min: 3,
+            max: 10,
+            message: "Length should be 6 to 10",
+            trigger: "blur",
+          },
+        ],
+        password: [
+          {required: true, message: "Please input password", trigger: "blur"},
+          {
+            min: 3,
+            max: 10,
+            message: "Password length should be 6 to 10",
+            trigger: "blur",
+          },
+        ],
+        usertypeid: [
+          {
+            required: true,
+            message: "Please select usertype",
+            trigger: "change",
+          },
+        ]
+      },
       tableData: [],
       pageNum: 1,
       pageSize: 5,
@@ -175,7 +203,7 @@ export default {
       nation: "",
       addPageVisible: false,
       usertypeid: '',
-      usertypeOptions:[
+      usertypeOptions: [
         {
           value: 1,
           label: 'Graduate',
@@ -276,17 +304,20 @@ export default {
       this.addPageVisible = !this.addPageVisible
     },
     addStu() {
-      console.log(this.usertypeid)
-      this.request.post("/student/add", this.form).then((resp) => {
-        if (resp.data === "OK") {
-          this.$message.success("add is successful");
-          this.addPageVisible = false;
-          this.form = {}
-          this.loadData();
-        } else {
-          this.$message.success("add is unsuccessful");
+      this.$refs["StuForm"].validate((valid) => {
+        if (valid) {
+          this.request.post("/student/add", this.form).then((resp) => {
+            if (resp.data === "OK") {
+              this.$message.success("add is successful");
+              this.addPageVisible = false;
+              this.form = {}
+              this.loadData();
+            } else {
+              this.$message.success("add is unsuccessful");
+            }
+          });
         }
-      });
+      })
     }
   },
 };
