@@ -21,7 +21,15 @@
       <el-button type="info">reset</el-button>
     </div>
 
-    <el-table :data="tableData" stripe style="width: 100%">
+    <div>
+      <el-button type="primary">Add</el-button>
+      <el-button type="info" @click="deleteMul">DeleteMul</el-button>
+      <el-button type="info" @click="exportTeacher">Export</el-button>
+      <el-button type="info" @click="importTeacher">Import</el-button>
+    </div>
+
+    <el-table :data="tableData" stripe style="width: 100%"
+              @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55"/>
       <el-table-column prop="id" label="Id" width="180"></el-table-column>
       <el-table-column prop="name" label="Name" width="180"></el-table-column>
@@ -120,6 +128,7 @@ export default {
     },
     deleteMul() {
       let ids = this.multipleSelection.map((v) => v.id);
+      console.log(ids)
       this.request.post("/teacher/delete/mul", ids).then((resp) => {
         if (resp.data === "OK") {
           this.$message.success("delete is successful");
