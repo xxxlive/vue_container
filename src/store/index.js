@@ -5,7 +5,8 @@ import {resetRouter} from '@/router'
 export default createStore({
     state: {
         currentPathName: '',
-        permisssion: []
+        permisssion: [],
+        test:'1',
     },
     getters: {},
     mutations: {
@@ -23,3 +24,4 @@ export default createStore({
     actions: {},
     modules: {}
 })
+
