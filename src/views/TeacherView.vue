@@ -25,7 +25,21 @@
       <el-button type="primary">Add</el-button>
       <el-button type="info" @click="deleteMul">DeleteMul</el-button>
       <el-button type="info" @click="exportTeacher">Export</el-button>
+      <el-upload
+      class="upload-demo"
+      action="http://localhost:8088/teacher/import/"
+      accept="xls"
+      :on-success="importSuccess">
       <el-button type="info" @click="importTeacher">Import</el-button>
+      </el-upload>
+
+      <el-upload
+          class="upload-demo"
+          action="http://localhost:8088/teacher/upload/"
+          accept="xls"
+          :on-success="importSuccess">
+        <el-button type="info" @click="importTeacher">Upload</el-button>
+      </el-upload>
     </div>
 
     <el-table :data="tableData" stripe style="width: 100%"
@@ -196,6 +210,9 @@ export default {
       this.pageNum = pageNum;
       this.loadData();
     },
+    importSuccess(){
+      console.log('fuck you')
+    }
   },
 };
 </script>
